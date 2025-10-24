@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>CLIENT_ID</key>
+		<string>166049269755-nuas83hhil6hpshc43ljsgf37et31fcm.apps.googleusercontent.com</string>
+		<key>REVERSED_CLIENT_ID</key>
+		<string>com.googleusercontent.apps.166049269755-nuas83hhil6hpshc43ljsgf37et31fcm</string>
+		<key>API_KEY</key>
+		<string>AIzaSyD7Ml6Hz2krG0cZOY3T43hJG0bDx25cB8E</string>
+		<key>GCM_SENDER_ID</key>
+		<string>166049269755</string>
+		<key>PLIST_VERSION</key>
+		<string>1</string>
+		<key>BUNDLE_ID</key>
+		<string>com.idtinc.one.click.prod</string>
+		<key>PROJECT_ID</key>
+		<string>mykiot-19eb7</string>
+		<key>STORAGE_BUCKET</key>
+		<string>mykiot-19eb7.appspot.com</string>
+		<key>IS_ADS_ENABLED</key>
+		<false></false>
+		<key>IS_ANALYTICS_ENABLED</key>
+		<false></false>
+		<key>IS_APPINVITE_ENABLED</key>
+		<true></true>
+		<key>IS_GCM_ENABLED</key>
+		<true></true>
+		<key>IS_SIGNIN_ENABLED</key>
+		<true></true>
+		<key>GOOGLE_APP_ID</key>
+		<string>1:166049269755:ios:5bae0f96a7c7d04d9b2d5e</string>
+		<key>DATABASE_URL</key>
+		<string>https://mykiot-19eb7-default-rtdb.firebaseio.com</string>
+	</dict>
+</plist>

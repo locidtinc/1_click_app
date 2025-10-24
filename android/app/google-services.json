@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "288423104417",
+    "project_id": "mykios-c2de7",
+    "storage_bucket": "mykios-c2de7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288423104417:android:49fa227a664292b712c5e0",
+        "android_client_info": {
+          "package_name": "com.idtinc.one.click"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM6GRfuQv2uOwyuH8J3Cv55ibKlo2nsQQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

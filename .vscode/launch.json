@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "1Click(Dev)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define", "DART_DEFINES_APP_NAME=1Click(Dev)",
+                "--dart-define", "DART_DEFINES_APP_SUFFIX=.dev",
+                "--dart-define", "DART_DEFINES_BASE_URL=https://api.mykiot.com",
+            ]
+        },
+        {
+            "name": "1Click(Stg)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define", "DART_DEFINES_APP_NAME=1Click(Stg)",
+                "--dart-define", "DART_DEFINES_APP_SUFFIX=.stg",
+                "--dart-define", "DART_DEFINES_BASE_URL=https://api.mykiot.com",
+            ]
+        },
+        {
+            "name": "1Click(Prod)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define", "DART_DEFINES_APP_NAME=1Click",
+                "--dart-define", "DART_DEFINES_APP_SUFFIX=",
+                "--dart-define", "DART_DEFINES_BASE_URL=https://api.onkiot.com",
+                //"--release",
+            ]
+        },
+    ]
+}

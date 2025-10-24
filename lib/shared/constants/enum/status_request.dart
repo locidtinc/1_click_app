@@ -1,0 +1,1 @@
+enum StatusRequest { success, error }
