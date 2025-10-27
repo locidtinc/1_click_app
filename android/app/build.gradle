@@ -50,8 +50,9 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     namespace "com.idtinc.one.click" 
-    compileSdkVersion 34
-    ndkVersion flutter.ndkVersion
+    compileSdkVersion 35
+    ndkVersion "26.1.10909125"
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -68,13 +69,14 @@ android {
     }
 
     defaultConfig {
+         
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.idtinc.one.click"
         applicationIdSuffix dartEnvironmentVariables.DART_DEFINES_APP_SUFFIX == 'DART_DEFINES_APP_SUFFIX' ? null : dartEnvironmentVariables.DART_DEFINES_APP_SUFFIX
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true

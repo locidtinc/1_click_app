@@ -22,6 +22,12 @@ class _NotiPageState extends State<NotiPage> {
   final myBloc = getIt.get<NotiCubit>();
   final scrollController = ScrollController();
   @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider<NotiCubit>(
       create: (context) => myBloc..getListNew(1),

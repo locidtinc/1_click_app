@@ -45,6 +45,13 @@ class _LoginV2PageState extends State<LoginV2Page> {
   }
 
   @override
+  void dispose() {
+    phone.dispose();
+    password.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<AuthBloc, CubitState>(

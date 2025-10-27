@@ -38,6 +38,12 @@ class _ProductInfoExtraContainerState extends State<ProductInfoExtraContainer> {
   late ExpandableController expandableControllerMoreInfo;
 
   @override
+  void dispose() {
+    expandableControllerMoreInfo.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
 
@@ -121,7 +127,8 @@ class _ProductInfoExtraContainerState extends State<ProductInfoExtraContainer> {
                 onChanged: (value) => widget.groupSelect?.call(value),
                 items: widget.listGroupDropdonw,
                 hintText: 'Chọn nhóm sản phẩm',
-                value: widget.groupSelected, showIconRemove: null,
+                value: widget.groupSelected,
+                showIconRemove: null,
               ),
               const SizedBox(height: sp4),
               Text(

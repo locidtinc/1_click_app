@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:base_mykiot/base_lhe.dart';
@@ -18,7 +17,6 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:one_click/data/models/payload/product/unit_v2_model.dart';
-import 'package:one_click/data/models/unit_model.dart';
 import 'package:one_click/domain/entity/brand.dart';
 import 'package:one_click/domain/entity/product_detail_entity.dart';
 import 'package:one_click/domain/entity/product_payload.dart';
@@ -72,6 +70,12 @@ class ProductCreateCubit extends Cubit<ProductCreateState> {
     ]);
   }
 
+  @override
+  Future<void> close() {
+    expandedController.dispose();
+    return super.close();
+  }
+
   Future<void> createProduct(
     BuildContext context,
     List<PayloadVariantModel> listVariant,
@@ -117,8 +121,7 @@ class ProductCreateCubit extends Cubit<ProductCreateState> {
           ),
         )
         .toList();
-    print(
-        'state.amountVariantDefault ${int.tryParse(state.amountVariantDefault.trim()) ?? 0}');
+
     if (state.statusVariantDefault == true) {
       listVariantAdded.add(
         VariantPayloadEntity(
@@ -135,8 +138,6 @@ class ProductCreateCubit extends Cubit<ProductCreateState> {
         ),
       );
     }
-
-    print('listVariantAdded $listVariantAdded');
 
     final List<bool> listMediaVariant = listVariant.fold([], (list, item) {
       list.add(item.isUse && item.image != null);
@@ -250,6 +251,11 @@ class ProductCreateCubit extends Cubit<ProductCreateState> {
       final isProductManagerInStack = pages.any(
         (page) => page.name == ProductManagerRoute.name,
       );
+
+      for (final variant in listVariant) {
+        variant.dispose();
+      }
+      listVariant.clear();
 
       onCompleted?.call();
       switch (isCreateMore) {

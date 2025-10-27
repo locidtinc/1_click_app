@@ -15,7 +15,7 @@ ipa:
 	flutter build ipa -dart-define=DART_DEFINES_APP_NAME="1Click" --dart-define=DART_DEFINES_BASE_URL="https://api.onkiot.com"
 
 aab:
-	flutter build appbundle -dart-define=DART_DEFINES_APP_NAME="1Click" --dart-define=DART_DEFINES_BASE_URL="https://api.onkiot.com"
+	flutter build appbundle --release -dart-define=DART_DEFINES_APP_NAME="1Click" --dart-define=DART_DEFINES_BASE_URL="https://api.onkiot.com"
 
 build_apk:
 	flutter build apk -dart-define=DART_DEFINES_APP_NAME="1Click" --dart-define=DART_DEFINES_BASE_URL="https://api.onkiot.com"

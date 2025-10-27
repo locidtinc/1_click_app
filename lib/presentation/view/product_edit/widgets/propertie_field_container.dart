@@ -37,6 +37,12 @@ class _PropertieFieldContainerState extends State<PropertieFieldContainer> {
   }
 
   @override
+  void dispose() {
+    expandableController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ExpandableNotifier(
       controller: expandableController,
@@ -103,7 +109,6 @@ class _PropertieFieldContainerState extends State<PropertieFieldContainer> {
                   required: true,
                   hintText: 'Nhập tên sản phẩm',
                   validate: (value) {},
-                  controller: TextEditingController(),
                   textInputType: TextInputType.name,
                   onConfirm: (value) {
                     if (value.isNotEmpty) {

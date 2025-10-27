@@ -25,6 +25,14 @@ class _ResetPasseV2PageState extends State<ResetPasseV2Page> {
   final bloc = ForgotAccountBloc();
   final pass = TextEditingController();
   final passConfirm = TextEditingController();
+
+  @override
+  void dispose() {
+    passConfirm.dispose();
+    pass.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ForgotAccountBloc, CubitState>(

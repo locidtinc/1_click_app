@@ -23,6 +23,12 @@ class _TypeBarcodeViewState extends State<TypeBarcodeView> {
   final TextEditingController barcodeTec = TextEditingController();
 
   @override
+  void dispose() {
+    barcodeTec.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: sp24),

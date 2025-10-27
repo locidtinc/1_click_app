@@ -22,10 +22,12 @@ class PropertieFieldContainerNew extends StatefulWidget {
   final Function() deletePropertie;
 
   @override
-  State<PropertieFieldContainerNew> createState() => _PropertieFieldContainerNewState();
+  State<PropertieFieldContainerNew> createState() =>
+      _PropertieFieldContainerNewState();
 }
 
-class _PropertieFieldContainerNewState extends State<PropertieFieldContainerNew> {
+class _PropertieFieldContainerNewState
+    extends State<PropertieFieldContainerNew> {
   late ExpandableController expandableController;
 
   @override
@@ -36,6 +38,12 @@ class _PropertieFieldContainerNewState extends State<PropertieFieldContainerNew>
       ..addListener(() {
         setState(() {});
       });
+  }
+
+  @override
+  void dispose() {
+    expandableController.dispose();
+    super.dispose();
   }
 
   @override
@@ -59,7 +67,9 @@ class _PropertieFieldContainerNewState extends State<PropertieFieldContainerNew>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.propertie.name.isEmpty ? 'Tên thuộc tính' : widget.propertie.name,
+                widget.propertie.name.isEmpty
+                    ? 'Tên thuộc tính'
+                    : widget.propertie.name,
                 style: p1,
               ),
               AnimatedRotation(

@@ -8,6 +8,8 @@ import 'package:one_click/domain/entity/order_preview.dart';
 import 'package:one_click/domain/usecase/order_get_list_use_case.dart';
 import 'package:one_click/presentation/view/order_create/cubit/order_create_state.dart';
 import 'package:one_click/shared/constants/enum/status_order.dart';
+import 'package:one_click/shared/ext/index.dart';
+import 'package:one_click/shared/utils/delay_callback.dart';
 
 import '../../../../../../data/mapper/order_detail_to_preview_mapper.dart';
 import '../../../../../../domain/usecase/order_draf_use_case.dart';
@@ -29,7 +31,20 @@ class AllOrderCubit extends Cubit<AllOrderState> {
       InfiniteListController<OrderPreviewEntity>.init();
   final ScrollController scrollController = ScrollController();
 
-  Timer? timer;
+  final delay = DelayCallBack(delay: 1.seconds);
+
+  @override
+  Future<void> close() {
+    infiniteListController.dispose();
+    scrollController.dispose();
+    return super.close();
+  }
+
+  void searchKeyChange(String value) {
+    emit(state.copyWith(searchKey: value));
+
+    delay.debounce(() => infiniteListController.onRefresh());
+  }
 
   void selectFilterButton(FilterButtonItem value) {
     emit(state.copyWith(selectFilter: value));
@@ -65,18 +80,6 @@ class AllOrderCubit extends Cubit<AllOrderState> {
         listFilter: filterButton.toSet().toList(),
       ),
     );
-  }
-
-  void searchKeyChange(String value) {
-    emit(state.copyWith(searchKey: value));
-
-    if (timer != null) {
-      timer!.cancel();
-    }
-
-    timer = Timer(const Duration(seconds: 1), () {
-      infiniteListController.onRefresh();
-    });
   }
 }
 

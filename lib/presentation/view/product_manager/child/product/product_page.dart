@@ -67,7 +67,7 @@ class _ProductViewState extends State<ProductView> {
                         hintText: 'Nhập tên sản phẩm, barcode,...',
                         validate: (value) {},
                         backgroundColor: whiteColor,
-                        onChanged: (value) => myBloc.keySearchChange(value),
+                        onChanged: (value) => myBloc.searchKeyChange(value),
                       ),
                     ),
                     const SizedBox(width: sp16),

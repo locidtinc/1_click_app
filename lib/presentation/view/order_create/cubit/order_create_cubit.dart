@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:base_mykiot/base_lhe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,12 +22,13 @@ import 'package:one_click/presentation/view/card_bank/cubit/card_bank_cubit.dart
 import 'package:one_click/shared/constants/enum/system_code.dart';
 import 'package:one_click/shared/constants/local_storage/app_shared_preference.dart';
 import 'package:one_click/shared/constants/pref_keys.dart';
+import 'package:one_click/shared/ext/index.dart';
+import 'package:one_click/shared/utils/delay_callback.dart';
 
 import '../../../../domain/entity/order_status.dart';
 import '../../../../domain/entity/qr_code_payment.dart';
 import '../../../../domain/usecase/order_qrcode_use_case.dart';
 import '../../../../domain/usecase/update_status_payment_order_use_case.dart';
-import '../../../routers/router.gr.dart';
 import 'order_create_state.dart';
 
 @injectable
@@ -57,7 +57,20 @@ class OrderCreateCubit extends Cubit<OrderCreateState> {
       InfiniteListController<VariantCreateOrderEntity>.init();
   final ScrollController scrollController = ScrollController();
 
-  Timer? timer;
+  final delay = DelayCallBack(delay: 1.seconds);
+
+  @override
+  Future<void> close() {
+    infiniteListController.dispose();
+    scrollController.dispose();
+    return super.close();
+  }
+
+  void searchKeyChange(String value) {
+    emit(state.copyWith(searchKey: value));
+
+    delay.debounce(() => infiniteListController.onRefresh());
+  }
 
   void _totalPrice() {
     _totalPriceDefault();
@@ -92,18 +105,6 @@ class OrderCreateCubit extends Cubit<OrderCreateState> {
         selectedCustomer: customer,
       ),
     );
-  }
-
-  void searchKeyChange(String value) {
-    emit(state.copyWith(searchKey: value));
-
-    if (timer != null) {
-      timer!.cancel();
-    }
-
-    timer = Timer(const Duration(seconds: 1), () {
-      infiniteListController.onRefresh();
-    });
   }
 
   void typePaymentChange(TypePayment item) {
@@ -260,8 +261,7 @@ extension VariantEditHandle on OrderCreateCubit {
   ) async {
     final res = await _variantGetByScanBarcodeUseCase
         .execute(VariantGetByScanBarcodeInput(barcode));
-    print('res.response.code ${res.response.code}');
-    // check status code response and list variant is not empty
+
     if (res.response.code == 200 && (res.response.data?.isNotEmpty ?? false)) {
       final listVariant =
           List<VariantCreateOrderEntity>.from(state.listVariantSelect);
@@ -462,8 +462,6 @@ extension CreateOrderHandle on OrderCreateCubit {
   Future<QrCodePayment?> qrCodePayment() async {
     final cardBank = await _cardBankCubit.getCard();
     if (cardBank == null || state.orderDetailEntity?.id == null) {
-      print(cardBank);
-      print(state.orderDetailEntity?.id);
       return null;
     }
     final input = OrderQrcodeInput(

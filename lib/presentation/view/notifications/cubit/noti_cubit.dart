@@ -32,6 +32,15 @@ class NotiCubit extends Cubit<NotiState> {
   final ScrollController scrollControllerOld = ScrollController();
   int _page = 1;
 
+  @override
+  Future<void> close() {
+    infiniteListControllerNew.dispose();
+    infiniteListControllerOld.dispose();
+    scrollControllerOld.dispose();
+    scrollControllerNew.dispose();
+    return super.close();
+  }
+
   Future<void> getCountAllNoti() async {
     final input = NotiCountInput();
     final res = await _notiCountUseCase.execute(input);

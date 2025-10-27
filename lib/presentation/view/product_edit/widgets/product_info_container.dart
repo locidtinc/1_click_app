@@ -79,6 +79,14 @@ class _ProductInfoContainerState extends State<ProductInfoContainer> {
   }
 
   @override
+  void dispose() {
+    barcodeTec.dispose();
+    priceImportTec.dispose();
+    priceSellTec.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ExpandableNotifier(
       controller: widget.expandableController,

@@ -37,6 +37,12 @@ class _SynchronizedStatusState extends State<SynchronizedStatus> {
   }
 
   @override
+  void dispose() {
+    expandableController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     expandableController.value = widget.status;
     return Container(

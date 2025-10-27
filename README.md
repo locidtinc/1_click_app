@@ -15,9 +15,9 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-## 0886319933/Mykios@1234
-## 0941479169
+
 ## 0354451289/1click123
+## 0886359933/Mykios@1234
 ## rm pubspec.lock && flutter pub get && flutter pub deps > dependencies.txt
 Xoá folder cache Git tương ứng:
 ## rm -rf ~/.pub-cache/git/base_project-* && flutter pub cache repair && flutter pub get
@@ -42,3 +42,8 @@ rm -rf ~/Library/Developer/Xcode/DerivedData
 
 # 5. Build lại
 flutter run
+
+
+bán hàng, cửa hàng tạp hoá, quản lý đơn hàng, quản lý khách hàng
+
+https://idtinc.co/

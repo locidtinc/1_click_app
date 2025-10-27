@@ -28,17 +28,31 @@ import '../../../domain/entity/variant_create_order.dart';
 import '../../../shared/utils/event.dart';
 
 @RoutePage()
-class OrderCreateConfirmPage extends StatelessWidget {
-  OrderCreateConfirmPage({
+class OrderCreateConfirmPage extends StatefulWidget {
+  const OrderCreateConfirmPage({
     super.key,
     required this.orderCreateCubit,
     this.isOnline,
   });
   final bool? isOnline;
   final OrderCreateCubit orderCreateCubit;
-  final InfiniteListController<AllOrderCubit> infiniteListController =
-      InfiniteListController<AllOrderCubit>.init();
+
+  @override
+  State<OrderCreateConfirmPage> createState() => _OrderCreateConfirmPageState();
+}
+
+class _OrderCreateConfirmPageState extends State<OrderCreateConfirmPage> {
+  final infiniteListController = InfiniteListController<AllOrderCubit>.init();
+
   final customerController = TextEditingController();
+
+  @override
+  void dispose() {
+    infiniteListController.dispose();
+    customerController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -67,7 +81,7 @@ class OrderCreateConfirmPage extends StatelessWidget {
                           padding: const EdgeInsets.all(sp8),
                           child:
                               BlocBuilder<OrderCreateCubit, OrderCreateState>(
-                            bloc: orderCreateCubit,
+                            bloc: widget.orderCreateCubit,
                             builder: (context, state) {
                               return state.typeOrder == TypeOrder.cHTH
                                   ? Column(
@@ -94,9 +108,9 @@ class OrderCreateConfirmPage extends StatelessWidget {
                                                   );
                                                 },
                                                 listItem: state.listCustomer,
-                                                onSelect: (item) =>
-                                                    orderCreateCubit
-                                                        .customerChange(
+                                                onSelect: (item) => widget
+                                                    .orderCreateCubit
+                                                    .customerChange(
                                                   item.id ?? 0,
                                                 ),
                                                 isLoadingInit:
@@ -114,9 +128,10 @@ class OrderCreateConfirmPage extends StatelessWidget {
                                                   onConfirm: (CustomerEntity?
                                                       customer) async {
                                                     if (customer != null) {
-                                                      await orderCreateCubit
+                                                      await widget
+                                                          .orderCreateCubit
                                                           .getListCustomer();
-                                                      orderCreateCubit
+                                                      widget.orderCreateCubit
                                                           .customerChange(
                                                               customer.id ?? 0);
                                                     }
@@ -202,7 +217,7 @@ class OrderCreateConfirmPage extends StatelessWidget {
                             hintText: 'Nhập ghi chú',
                             validate: (value) {},
                             onChanged: (value) =>
-                                orderCreateCubit.noteChange(value),
+                                widget.orderCreateCubit.noteChange(value),
                           ),
                         ),
                       ),
@@ -239,7 +254,7 @@ class OrderCreateConfirmPage extends StatelessWidget {
                   height: sp12,
                 ),
                 BlocBuilder<OrderCreateCubit, OrderCreateState>(
-                  bloc: orderCreateCubit,
+                  bloc: widget.orderCreateCubit,
                   builder: (context, state) {
                     final listVariant = state.listVariantSelect;
                     return ListView.separated(
@@ -252,17 +267,18 @@ class OrderCreateConfirmPage extends StatelessWidget {
                                 key: ValueKey(variant.id),
                                 variant: variant,
                                 quantityChange: (variant, value) =>
-                                    orderCreateCubit.changeAmount(
+                                    widget.orderCreateCubit.changeAmount(
                                   variant,
                                   value,
                                 ),
-                                toggleCheckbox: (bool? value) =>
-                                    orderCreateCubit.checkboxToggle(variant),
+                                toggleCheckbox: (bool? value) => widget
+                                    .orderCreateCubit
+                                    .checkboxToggle(variant),
                                 priceSellChange: (
                                   VariantCreateOrderEntity variant,
                                   String value,
                                 ) =>
-                                    orderCreateCubit.priceChange(
+                                    widget.orderCreateCubit.priceChange(
                                   variant,
                                   value,
                                 ),
@@ -271,11 +287,12 @@ class OrderCreateConfirmPage extends StatelessWidget {
                                 // amountTec: TextEditingController(
                                 //   text: variant.amount.toString(),
                                 // ),
-                                toggleCheckbox: (bool? value) =>
-                                    orderCreateCubit.checkboxToggle(variant),
+                                toggleCheckbox: (bool? value) => widget
+                                    .orderCreateCubit
+                                    .checkboxToggle(variant),
                                 variant: variant,
                                 quantityChange: (variant, value) =>
-                                    orderCreateCubit.changeAmount(
+                                    widget.orderCreateCubit.changeAmount(
                                   variant,
                                   value,
                                 ),
@@ -295,7 +312,7 @@ class OrderCreateConfirmPage extends StatelessWidget {
           color: whiteColor,
           padding: const EdgeInsets.symmetric(vertical: sp24, horizontal: sp16),
           child: BlocBuilder<OrderCreateCubit, OrderCreateState>(
-            bloc: orderCreateCubit,
+            bloc: widget.orderCreateCubit,
             builder: (context, state) {
               return state.typeOrder == TypeOrder.cHTH
                   ? Column(
@@ -309,7 +326,7 @@ class OrderCreateConfirmPage extends StatelessWidget {
                               style: p4.copyWith(color: greyColor),
                             ),
                             BlocBuilder<OrderCreateCubit, OrderCreateState>(
-                              bloc: orderCreateCubit,
+                              bloc: widget.orderCreateCubit,
                               builder: (context, state) {
                                 return Text(
                                   '${FormatCurrency(state.totalPrice)}đ',
@@ -380,7 +397,7 @@ class OrderCreateConfirmPage extends StatelessWidget {
           context,
           typePayment,
         ),
-        totalPrice: orderCreateCubit.state.totalPrice,
+        totalPrice: widget.orderCreateCubit.state.totalPrice,
       ),
     );
   }
@@ -392,11 +409,11 @@ class OrderCreateConfirmPage extends StatelessWidget {
   ) async {
     final blocAllOder = getIt.get<AllOrderCubit>();
     final myBloc = getIt.get<HomeCubit>();
-    orderCreateCubit.validateCreateOrder();
-    if (orderCreateCubit.state.failureCreateOrder != null) {
+    widget.orderCreateCubit.validateCreateOrder();
+    if (widget.orderCreateCubit.state.failureCreateOrder != null) {
       DialogUtils.showErrorDialog(
         context,
-        content: orderCreateCubit.state.failureCreateOrder?.errMsg ?? '',
+        content: widget.orderCreateCubit.state.failureCreateOrder?.errMsg ?? '',
       );
       return;
     }
@@ -405,12 +422,12 @@ class OrderCreateConfirmPage extends StatelessWidget {
       context,
       content: 'Đang tạo đơn vui lòng đợi',
     );
-    final res = await orderCreateCubit.createOrder(isOnline);
+    final res = await widget.orderCreateCubit.createOrder(widget.isOnline);
 
     QrCodePayment? resPayment;
 
     if (typePayment == TypePayment.qrCode) {
-      resPayment = await orderCreateCubit.qrCodePayment();
+      resPayment = await widget.orderCreateCubit.qrCodePayment();
       if (resPayment == null && context.mounted) {
         Navigator.of(context).pop();
         DialogUtils.showErrorDialog(
@@ -431,7 +448,7 @@ class OrderCreateConfirmPage extends StatelessWidget {
       context.router.popUntil(
         (route) =>
             route.settings.name ==
-            (orderCreateCubit.state.typeOrder == TypeOrder.cHTH
+            (widget.orderCreateCubit.state.typeOrder == TypeOrder.cHTH
                 ? 'OrderManagerRoute'
                 : 'OrderImportRoute'),
       );
@@ -442,14 +459,14 @@ class OrderCreateConfirmPage extends StatelessWidget {
             qrcodeInfo: resPayment,
             cardEntity: card,
             orderDetailEntity: res.response.data!,
-            onConfirm: () => orderCreateCubit.updatePayment(context),
+            onConfirm: () => widget.orderCreateCubit.updatePayment(context),
           ),
         );
       } else {
         context.router.push(
           OrderDetailRoute(
             order: res.response.data!,
-            typeOrder: orderCreateCubit.state.typeOrder,
+            typeOrder: widget.orderCreateCubit.state.typeOrder,
           ),
         );
       }
@@ -464,18 +481,18 @@ class OrderCreateConfirmPage extends StatelessWidget {
 
   /// create draf order save to shared
   void createDrafOrderEvent(BuildContext context) async {
-    final res = orderCreateCubit.createOrderDraf();
+    final res = widget.orderCreateCubit.createOrderDraf();
     context.router.popUntil(
       (route) =>
           route.settings.name ==
-          (orderCreateCubit.state.typeOrder == TypeOrder.cHTH
+          (widget.orderCreateCubit.state.typeOrder == TypeOrder.cHTH
               ? 'OrderManagerRoute'
               : 'OrderImportRoute'),
     );
     context.router.push(
       OrderDetailRoute(
         order: res,
-        typeOrder: orderCreateCubit.state.typeOrder,
+        typeOrder: widget.orderCreateCubit.state.typeOrder,
       ),
     );
   }

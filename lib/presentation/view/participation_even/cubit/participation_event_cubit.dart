@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:one_click/data/models/participation_even_model.dart';
-import 'package:one_click/data/repository/customer_repository_impl.dart';
-import 'package:one_click/domain/entity/customer.dart';
-import 'package:one_click/domain/usecase/customer_get_list_use_case.dart';
+import 'package:one_click/shared/ext/index.dart';
+import 'package:one_click/shared/utils/delay_callback.dart';
 
 import '../../../../domain/repository/participation_repository/participation_repository.dart';
-import '../../../../domain/usecase/customer_delete_use_case.dart';
 import 'participation_event_state.dart';
 
 @injectable
@@ -21,17 +19,19 @@ class ParticipationEventCubit extends Cubit<CustomerListState> {
       InfiniteListController<ParticipationEvenModel>.init();
   final ScrollController scrollController = ScrollController();
   final _repo = ParticipationRepository();
-  Timer? timer;
+  final delay = DelayCallBack(delay: 1.seconds);
+
+  @override
+  Future<void> close() {
+    infiniteListController.dispose();
+    scrollController.dispose();
+    return super.close();
+  }
 
   void searchKeyChange(String value) {
     emit(state.copyWith(searchKey: value));
 
-    if (timer != null) {
-      timer!.cancel();
-    }
-    timer = Timer(const Duration(seconds: 1), () {
-      infiniteListController.onRefresh();
-    });
+    delay.debounce(() => infiniteListController.onRefresh());
   }
 }
 

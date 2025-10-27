@@ -18,6 +18,7 @@ import 'package:one_click/shared/constants/local_storage/app_shared_preference.d
 import 'package:one_click/shared/constants/pref_keys.dart';
 import 'package:one_click/shared/ext/index.dart';
 import 'package:one_click/shared/utils/debounce.dart';
+import 'package:one_click/shared/utils/delay_callback.dart';
 
 import '../../../../../../domain/usecase/product_by_qrcode.dart';
 import 'product_state.dart';
@@ -49,7 +50,15 @@ class ProductCubit extends Cubit<ProductState> {
   //   emit(state.copyWith(listProduct: res.listProduct));
   // }
 
-  Timer? timer;
+  final delay = DelayCallBack(delay: 1.seconds);
+
+  @override
+  Future<void> close() {
+    infiniteListController.dispose();
+    scrollController.dispose();
+    variantListController.dispose();
+    return super.close();
+  }
 
   Future<List<ProductPreviewEntity>> getListProductPreview(int page) async {
     final warehouseId =
@@ -156,16 +165,10 @@ class ProductCubit extends Cubit<ProductState> {
         .push(VariantDetailRoute(id: item.id, onConfirm: onConfirm));
   }
 
-  void keySearchChange(String value) {
+  void searchKeyChange(String value) {
     emit(state.copyWith(keySearch: value));
 
-    if (timer != null) {
-      timer!.cancel();
-    }
-
-    timer = Timer(const Duration(seconds: 1), () {
-      variantListController.onRefresh();
-    });
+    delay.debounce(() => infiniteListController.onRefresh());
   }
 
   void filterChange({

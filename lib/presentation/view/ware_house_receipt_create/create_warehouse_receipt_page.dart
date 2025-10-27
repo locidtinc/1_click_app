@@ -44,6 +44,13 @@ class _CreateWarehouseReceiptPageState extends State<CreateWarehouseReceiptPage>
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [

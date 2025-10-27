@@ -8,9 +8,11 @@ import 'dart:io';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
-PayloadVariantModel payloadVariantModelFromJson(String str) => PayloadVariantModel.fromJson(json.decode(str));
+PayloadVariantModel payloadVariantModelFromJson(String str) =>
+    PayloadVariantModel.fromJson(json.decode(str));
 
-String payloadVariantModelToJson(PayloadVariantModel data) => json.encode(data.toJson());
+String payloadVariantModelToJson(PayloadVariantModel data) =>
+    json.encode(data.toJson());
 
 class PayloadVariantModel {
   String? title;
@@ -59,10 +61,12 @@ class PayloadVariantModel {
         priceImport: priceImport ?? this.priceImport,
         focusNode: focusNode ?? this.focusNode,
         image: image ?? this.image,
-        nameVariantController: nameVariantController ?? this.nameVariantController,
+        nameVariantController:
+            nameVariantController ?? this.nameVariantController,
       );
 
-  factory PayloadVariantModel.fromJson(Map<String, dynamic> json) => PayloadVariantModel(
+  factory PayloadVariantModel.fromJson(Map<String, dynamic> json) =>
+      PayloadVariantModel(
         title: json['title'],
         barcode: json['barcode'],
         options: json['options'] == null
@@ -79,7 +83,9 @@ class PayloadVariantModel {
   Map<String, dynamic> toJson() => {
         'title': title,
         'barcode': barcode,
-        'options': options == null ? [] : List<dynamic>.from(options!.map((x) => x.toJson())),
+        'options': options == null
+            ? []
+            : List<dynamic>.from(options!.map((x) => x.toJson())),
         'quantity': quantity,
         'price_sell': priceSell,
         'price_import': priceImport,
@@ -113,4 +119,16 @@ class Option {
         'title': title,
         'values': values,
       };
+}
+
+extension PayloadVariantModelDispose on PayloadVariantModel {
+  void dispose() {
+    barcode?.dispose();
+    quantity?.dispose();
+    priceSell?.dispose();
+    priceImport?.dispose();
+    nameVariantController?.dispose();
+    controller?.dispose();
+    focusNode?.dispose();
+  }
 }

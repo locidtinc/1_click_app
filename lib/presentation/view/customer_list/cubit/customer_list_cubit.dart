@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:one_click/domain/entity/customer.dart';
 import 'package:one_click/domain/usecase/customer_get_list_use_case.dart';
+import 'package:one_click/shared/ext/index.dart';
+import 'package:one_click/shared/utils/delay_callback.dart';
 
 import '../../../../domain/usecase/customer_delete_use_case.dart';
 import 'customer_list_state.dart';
@@ -24,17 +26,19 @@ class CustomerListCubit extends Cubit<CustomerListState> {
       InfiniteListController<CustomerEntity>.init();
   final ScrollController scrollController = ScrollController();
 
-  Timer? timer;
+  final delay = DelayCallBack(delay: 1.seconds);
+
+  @override
+  Future<void> close() {
+    infiniteListController.dispose();
+    scrollController.dispose();
+    return super.close();
+  }
 
   void searchKeyChange(String value) {
     emit(state.copyWith(searchKey: value));
 
-    if (timer != null) {
-      timer!.cancel();
-    }
-    timer = Timer(const Duration(seconds: 1), () {
-      infiniteListController.onRefresh();
-    });
+    delay.debounce(() => infiniteListController.onRefresh());
   }
 }
 

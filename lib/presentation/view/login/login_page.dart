@@ -1,17 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:base_mykiot/base_lhe.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:one_click/env/env_config.dart';
 import 'package:one_click/presentation/routers/router.gr.dart';
-import 'package:one_click/shared/constants/env_constants.dart';
 // import 'package:package_info_plus/package_info_plus.dart';
 
-import '../../../shared/services/notification/notification.dart';
 import '../../di/di.dart';
 import 'cubit/login_cubit.dart';
 import 'cubit/login_state.dart';
@@ -29,6 +25,13 @@ class _LoginPageState extends State<LoginPage> {
 
   late TextEditingController username;
   late TextEditingController password;
+
+  @override
+  void dispose() {
+    username.dispose();
+    password.dispose();
+    super.dispose();
+  }
 
   Future<void> initFirebase() async {
     // await Firebase.initializeApp();

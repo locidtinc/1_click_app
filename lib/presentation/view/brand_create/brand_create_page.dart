@@ -24,6 +24,11 @@ class BrandCreatePage extends StatefulWidget {
 class _BrandCreatePageState extends State<BrandCreatePage> {
   final nameTec = TextEditingController();
   final myBloc = getIt.get<BrandCreateCubit>();
+  @override
+  void dispose() {
+    nameTec.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -19,7 +19,6 @@ import 'package:one_click/presentation/config/app_style/init_app_style.dart';
 import 'package:one_click/presentation/di/di.dart';
 import 'package:one_click/presentation/view/product_create/cubit/product_create_cubit.dart';
 import 'package:one_click/presentation/view/product_create/cubit/product_create_state.dart';
-import 'package:one_click/presentation/view/product_create/widgets/base_price_item.dart';
 import 'package:one_click/presentation/view/product_create/widgets/bts_config_base_price.dart';
 import 'package:one_click/presentation/view/product_create/widgets/bts_config_unit_sell.dart';
 import 'package:one_click/presentation/view/product_create/widgets/item_create_unit.dart';
@@ -61,6 +60,11 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
 
   final TextEditingController nameVariantController = TextEditingController();
 
+  final _scrollController = ScrollController();
+  final myBloc = getIt.get<ProductCreateCubit>();
+  final _listBrandCtrl = TextEditingController();
+  final _listCategoryCtrl = TextEditingController();
+
   List<DropdownMenuItem> listBrandDropdonw = [];
   List<DropdownMenuItem> listCategoryDropdonw = [];
   List<DropdownMenuItem> listGroupDropdonw = [];
@@ -69,10 +73,6 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     listGroupDropdonw = await myBloc.getListProductGroup();
   }
 
-  final _scrollController = ScrollController();
-  final myBloc = getIt.get<ProductCreateCubit>();
-  final _listBrandCtrl = TextEditingController();
-  final _listCategoryCtrl = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -101,6 +101,32 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
           ..addListener(() {
             setState(() {});
           });
+  }
+
+  @override
+  void dispose() {
+    priceSell.dispose();
+    priceImport.dispose();
+    nameVariantController.dispose();
+    _scrollController.dispose();
+    _listBrandCtrl.dispose();
+    _listCategoryCtrl.dispose();
+
+    expandableController.dispose();
+    expandableControllerMoreInfo.dispose();
+    expandableControllerProductInfo.dispose();
+
+    for (final e in _listProductProperties) {
+      e.name?.dispose();
+      e.controller?.dispose();
+      e.focusNode?.dispose();
+    }
+
+    for (final e in _listVariantModel) {
+      e.dispose();
+    }
+
+    super.dispose();
   }
 
   void _addProperties() {

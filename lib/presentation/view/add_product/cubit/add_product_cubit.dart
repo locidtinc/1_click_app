@@ -10,6 +10,8 @@ import 'package:one_click/domain/usecase/product_get_use_case.dart';
 import 'package:one_click/presentation/base/dialog_custom.dart';
 import 'package:one_click/shared/constants/local_storage/app_shared_preference.dart';
 import 'package:one_click/shared/constants/pref_keys.dart';
+import 'package:one_click/shared/ext/index.dart';
+import 'package:one_click/shared/utils/delay_callback.dart';
 import '../../../../domain/entity/product_detail_entity.dart';
 import '../../../../domain/usecase/product_by_qrcode.dart';
 import 'add_product_state.dart';
@@ -25,23 +27,23 @@ class AddProductCubit extends Cubit<AddProductState> {
   final InfiniteListController<ProductPreviewEntity> infiniteListController =
       InfiniteListController<ProductPreviewEntity>.init();
   final ScrollController scrollController = ScrollController();
+  final delay = DelayCallBack(delay: 1.seconds);
 
-  Timer? timer;
-
-  void updateListProductSelected(List<ProductPreviewEntity> list) {
-    emit(state.copyWith(productsSelected: list));
+  @override
+  Future<void> close() {
+    infiniteListController.dispose();
+    scrollController.dispose();
+    return super.close();
   }
 
   void searchKeyChange(String value) {
     emit(state.copyWith(searchKey: value));
 
-    if (timer != null) {
-      timer!.cancel();
-    }
+    delay.debounce(() => infiniteListController.onRefresh());
+  }
 
-    timer = Timer(const Duration(seconds: 1), () {
-      infiniteListController.onRefresh();
-    });
+  void updateListProductSelected(List<ProductPreviewEntity> list) {
+    emit(state.copyWith(productsSelected: list));
   }
 
   void checkboxToggle(ProductPreviewEntity product) {

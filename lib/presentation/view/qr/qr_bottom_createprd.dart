@@ -35,6 +35,12 @@ class _QrBottomCreateprdState extends State<QrBottomCreateprd> {
   final TextEditingController barcodeTec = TextEditingController();
   final FocusNode fn = FocusNode();
   @override
+  void dispose() {
+    barcodeTec.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onVerticalDragUpdate: (details) {

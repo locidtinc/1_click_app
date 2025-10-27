@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:base_mykiot/base_lhe.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:one_click/gen/assets.dart';
 import 'package:one_click/presentation/base/app_bar.dart';
 import 'package:one_click/presentation/base/custom_btn.dart';
@@ -9,8 +8,6 @@ import 'package:one_click/presentation/base/input_column.dart';
 import 'package:one_click/presentation/base/select.dart';
 import 'package:one_click/presentation/config/bloc/bloc_status.dart';
 import 'package:one_click/presentation/config/bloc/init_state.dart';
-import 'package:one_click/presentation/shared_view/widget/fa_icon.dart';
-import 'package:one_click/shared/constants/fa_code.dart';
 import 'package:one_click/shared/ext/index.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
@@ -37,13 +34,18 @@ class _AddressV2PageState extends State<AddressV2Page> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     addressText.text = widget.address?.address ?? '';
     bloc.getDataDefault(value: widget.address);
     if (widget.address?.lat != null && widget.address?.long != null) {
       latLongBloc.getLatlng(address: widget.address!.toText);
     }
+  }
+
+  @override
+  void dispose() {
+    addressText.dispose();
+    super.dispose();
   }
 
   MapLatLng? get latLng {

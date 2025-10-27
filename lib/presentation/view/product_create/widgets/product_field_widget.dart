@@ -69,12 +69,17 @@ class _ProductFieldViewState extends State<ProductFieldView> {
   }
 
   @override
+  void dispose() {
+    productNameTec.dispose();
+    barcodeTec.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final bloc = context.read<ProductCreateCubit>();
     return BlocListener<ProductCreateCubit, ProductCreateState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       child: ExpandableNotifier(
         controller: widget.expandableController,
         child: ExpandablePanel(

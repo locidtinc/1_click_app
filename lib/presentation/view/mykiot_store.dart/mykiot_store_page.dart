@@ -34,7 +34,6 @@ class _MykiotStorePageState extends State<MykiotStorePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     cartCubit.getListProduct();

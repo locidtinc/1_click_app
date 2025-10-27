@@ -17,6 +17,13 @@ class OrderHistoryCubit extends Cubit<OrderHistoryState> {
   final InfiniteListController<OrderPreviewEntity> infiniteListController =
       InfiniteListController<OrderPreviewEntity>.init();
   final ScrollController scrollController = ScrollController();
+
+  @override
+  Future<void> close() {
+    infiniteListController.dispose();
+    scrollController.dispose();
+    return super.close();
+  }
 }
 
 extension ApiEvent on OrderHistoryCubit {

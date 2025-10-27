@@ -32,6 +32,7 @@ class _AllOrderViewState extends State<AllOrderView>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocProvider<AllOrderCubit>(
       create: (context) => bloc,
       child: BlocBuilder<AllOrderCubit, AllOrderState>(
@@ -105,6 +106,5 @@ class _AllOrderViewState extends State<AllOrderView>
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

@@ -7,12 +7,13 @@ import 'package:one_click/shared/bg/bg_bts.dart';
 import 'package:one_click/shared/ext/index.dart';
 
 class BtsConfigUnitSell extends StatefulWidget {
-  const BtsConfigUnitSell(
-      {super.key,
-      this.unit,
-      this.isUpdate = false,
-      required this.prev,
-      required this.name});
+  const BtsConfigUnitSell({
+    super.key,
+    this.unit,
+    this.isUpdate = false,
+    required this.prev,
+    required this.name,
+  });
 
   final UnitV2Model? unit;
   final bool isUpdate;
@@ -44,6 +45,13 @@ class _BtsConfigUnitSellState extends State<BtsConfigUnitSell> {
       level = widget.unit?.level ?? 0;
       level++;
     }
+  }
+
+  @override
+  void dispose() {
+    unitText.dispose();
+    valueText.dispose();
+    super.dispose();
   }
 
   @override

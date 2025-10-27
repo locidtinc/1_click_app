@@ -1,18 +1,12 @@
-import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:base_mykiot/base_lhe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:one_click/presentation/base/address_empty.dart';
 import 'package:one_click/presentation/base/app_bar.dart';
 import 'package:one_click/presentation/base/select.dart';
 import 'package:one_click/presentation/di/di.dart';
 import 'package:one_click/presentation/routers/router.gr.dart';
-import 'package:one_click/presentation/shared_view/widget/address_with_map.dart';
-import 'package:one_click/presentation/view/map_picker.dart/map_picker_page.dart';
 import 'package:one_click/shared/constants/pref_keys.dart';
 import 'package:one_click/shared/ext/index.dart';
 import 'package:one_click/shared/utils/event.dart';
@@ -150,11 +144,11 @@ class _CustomerCreatePageState extends State<CustomerCreatePage> {
                           ),
                           const SizedBox(height: sp16),
                           BlocBuilder<CustomerCreateCubit, CustomerCreateState>(
+                            buildWhen: (previous, current) =>
+                                previous.birthday != current.birthday,
                             builder: (context, state) {
                               return AppInput(
-                                controller: TextEditingController(
-                                  text: state.birthday,
-                                ),
+                                initialValue: state.birthday,
                                 label: 'Ngày sinh',
                                 hintText: 'Chọn ngày sinh',
                                 validate: (value) {},

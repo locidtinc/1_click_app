@@ -37,6 +37,14 @@ class _BtsConfigBasePriceState extends State<BtsConfigBasePrice> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    sell.dispose();
+    import.dispose();
+    vat.dispose();
+    super.dispose();
+  }
+
   int? level;
 
   @override

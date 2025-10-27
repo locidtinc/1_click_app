@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import '../../shared/constants/local_storage/app_shared_preference.dart';
@@ -49,13 +50,15 @@ class BaseDio {
           //   message = error.response?.data['message'];
           // }
           if (error.response?.data is Map) {
-            message = error.response?.data['message']?.toString() ?? 'Có lỗi hệ thống, vui lòng thử lại';
+            message = error.response?.data['message']?.toString() ??
+                'Có lỗi hệ thống, vui lòng thử lại';
           }
 
           // error = message;
           // error.stackTrace = null;
 
-          if (error.response?.statusCode == 401 || error.response?.statusCode == 403) {
+          if (error.response?.statusCode == 401 ||
+              error.response?.statusCode == 403) {
             final accessToken = await _getNewToken();
 
             // Cập nhật token trong bộ nhớ đệm
@@ -80,8 +83,8 @@ class BaseDio {
           }
         },
       ),
-      PrettyDioLogger(requestBody: true),
-      CurlLoggerDioInterceptor(printOnSuccess: true),
+      PrettyDioLogger(requestBody: kDebugMode),
+      CurlLoggerDioInterceptor(printOnSuccess: kDebugMode),
     ]);
     return dio;
   }
@@ -89,7 +92,8 @@ class BaseDio {
   Future<String> _getNewToken() async {
     try {
       final payload = {
-        'refresh': '${AppSharedPreference.instance.getValue(PrefKeys.tokenRefresh)}',
+        'refresh':
+            '${AppSharedPreference.instance.getValue(PrefKeys.tokenRefresh)}',
       };
       final res = await Dio(
         BaseOptions(

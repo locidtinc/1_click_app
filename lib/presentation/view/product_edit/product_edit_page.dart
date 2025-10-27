@@ -53,6 +53,12 @@ class _ProductEditPageState extends State<ProductEditPage> {
   }
 
   @override
+  void dispose() {
+    expandableController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider<ProductEditCubit>(
       create: (context) => myBloc

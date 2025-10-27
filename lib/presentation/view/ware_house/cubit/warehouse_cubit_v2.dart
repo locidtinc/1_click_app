@@ -4,7 +4,6 @@ import 'package:base_mykiot/base_lhe.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:one_click/data/models/warehouse_data_model.dart';
 import 'package:one_click/domain/entity/store_entity.dart';
 import 'package:one_click/domain/entity/warehouse_entity.dart';
 import 'package:one_click/domain/usecase/warehouse_use_case.dart';
@@ -12,7 +11,6 @@ import 'package:one_click/presentation/view/ware_house/cubit/warehouse_state.dar
 import 'package:one_click/presentation/view/ware_house/warehourse_list_page_v2.dart';
 import 'package:one_click/shared/constants/local_storage/app_shared_preference.dart';
 import 'package:one_click/shared/constants/pref_keys.dart';
-import 'package:one_click/shared/ext/index.dart';
 
 @injectable
 class WarehouseCubitV2 extends Cubit<WarehouseState> {
@@ -27,6 +25,13 @@ class WarehouseCubitV2 extends Cubit<WarehouseState> {
   final InfiniteListController<WarehouseEntity> warehouseILC =
       InfiniteListController<WarehouseEntity>.init();
   final ScrollController scrollController = ScrollController();
+
+  @override
+  Future<void> close() {
+    warehouseILC.dispose();
+    scrollController.dispose();
+    return super.close();
+  }
 
   // List<WarehouseEntity> _warehouses = [];
   // final all = const WarehouseModel(title: 'Tất cả');

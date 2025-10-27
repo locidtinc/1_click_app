@@ -34,6 +34,13 @@ class _VariantCreateOrderConfirmCardState
   late FocusNode amountFn;
 
   @override
+  void dispose() {
+    amountTec.dispose();
+    priceSellTec.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     amountTec = TextEditingController(text: widget.variant.amount.toString());

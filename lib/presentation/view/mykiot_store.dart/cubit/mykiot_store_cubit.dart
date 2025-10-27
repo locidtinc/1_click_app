@@ -27,6 +27,14 @@ class MykiotStoreCubit extends Cubit<MykiotStoreState> {
 
   Timer? timerSearchPromotion;
 
+  @override
+  Future<void> close() {
+    scrollController.dispose();
+    scPagePromotion.dispose();
+    floatingSearchBarController.dispose();
+    return super.close();
+  }
+
   void init() {
     scrollController.addListener(() {
       final maxScroll = scrollController.position.maxScrollExtent;

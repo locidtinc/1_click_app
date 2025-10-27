@@ -27,6 +27,12 @@ class _PrdShipmentWidgetState extends State<PrdShipmentWidget> {
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final bloc = widget.bloc;
     final shipments = bloc.state.shipmentsInfor;

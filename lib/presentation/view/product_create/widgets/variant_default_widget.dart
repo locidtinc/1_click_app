@@ -229,7 +229,7 @@ class _VariantDefaultViewState extends State<VariantDefaultView> {
               const SizedBox(height: sp16),
               // Info Variant
               AppInput(
-                controller: TextEditingController(text: widget.title),
+                initialValue: widget.title,
                 label: 'Tên mẫu mã',
                 hintText: 'Nhập tên sản phẩm',
                 validate: (value) {},
@@ -243,7 +243,7 @@ class _VariantDefaultViewState extends State<VariantDefaultView> {
                   Expanded(
                     flex: 1,
                     child: AppInput(
-                      controller: TextEditingController(text: widget.barcode),
+                      initialValue: widget.barcode,
                       label: 'Mã vạch',
                       hintText: 'Nhập mã vạch',
                       validate: (value) {},
@@ -259,8 +259,7 @@ class _VariantDefaultViewState extends State<VariantDefaultView> {
                   Expanded(
                     flex: 1,
                     child: AppInput(
-                      controller:
-                          TextEditingController(text: widget.priceImport),
+                      initialValue: widget.priceImport,
                       label: 'Giá nhập',
                       hintText: 'Nhập giá nhập',
                       validate: (value) {},
@@ -277,7 +276,7 @@ class _VariantDefaultViewState extends State<VariantDefaultView> {
                   Expanded(
                     flex: 1,
                     child: AppInput(
-                      controller: TextEditingController(text: widget.priceSell),
+                      initialValue: widget.priceSell,
                       label: 'Giá bán lẻ',
                       hintText: 'Nhập giá bán lẻ',
                       validate: (value) {},

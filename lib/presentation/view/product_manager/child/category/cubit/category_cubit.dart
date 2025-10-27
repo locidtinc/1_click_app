@@ -11,6 +11,8 @@ import 'package:one_click/domain/usecase/delete_product_item_use_case.dart';
 import 'package:one_click/presentation/base/dialog_custom.dart';
 import 'package:one_click/presentation/config/bloc/bloc_status.dart';
 import 'package:one_click/presentation/routers/router.gr.dart';
+import 'package:one_click/shared/ext/index.dart';
+import 'package:one_click/shared/utils/delay_callback.dart';
 
 import 'category_state.dart';
 
@@ -28,18 +30,19 @@ class CategoryCubit extends Cubit<CategoryState> {
       InfiniteListController<BrandEntity>.init();
   final ScrollController scrollController = ScrollController();
 
-  Timer? timer;
+  final delay = DelayCallBack(delay: 1.seconds);
+
+  @override
+  Future<void> close() {
+    infiniteListController.dispose();
+    scrollController.dispose();
+    return super.close();
+  }
 
   void searchKeyChange(String value) {
     emit(state.copyWith(searchKey: value));
 
-    if (timer != null) {
-      timer!.cancel();
-    }
-
-    timer = Timer(const Duration(seconds: 1), () {
-      infiniteListController.onRefresh();
-    });
+    delay.debounce(() => infiniteListController.onRefresh());
   }
 
   void optionChange(TypeCategory value) {

@@ -18,7 +18,7 @@ import 'cubit/customer_edit_cubit.dart';
 
 @RoutePage()
 class CustomerEditPage extends StatefulWidget {
-  CustomerEditPage({
+  const CustomerEditPage({
     super.key,
     required this.customer,
   });
@@ -33,6 +33,12 @@ class _CustomerEditPageState extends State<CustomerEditPage> {
   final myBloc = getIt.get<CustomerEditCubit>();
 
   final birthdayTec = TextEditingController();
+
+  @override
+  void dispose() {
+    birthdayTec.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

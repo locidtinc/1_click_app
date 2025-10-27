@@ -19,6 +19,11 @@ class CreateCategoryPage extends StatefulWidget {
 class _CreateCategoryPageState extends State<CreateCategoryPage> {
   final titleTec = TextEditingController();
   final myBloc = getIt.get<CategoryCreateCubit>();
+  @override
+  void dispose() {
+    titleTec.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -22,6 +22,11 @@ class GroupCreatePage extends StatefulWidget {
 
 class _GroupCreatePageState extends State<GroupCreatePage> {
   final nameCategoryTec = TextEditingController();
+  @override
+  void dispose() {
+    nameCategoryTec.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

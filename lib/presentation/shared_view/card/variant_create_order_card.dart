@@ -49,6 +49,11 @@ class _VariantCreateOrderCardState extends State<VariantCreateOrderCard> {
     amountTec.dispose();
     amountFn.dispose();
     expandableController.dispose();
+    textCtrls.forEach(
+      (key, value) {
+        value.dispose();
+      },
+    );
     super.dispose();
   }
 
@@ -80,7 +85,6 @@ class _VariantCreateOrderCardState extends State<VariantCreateOrderCard> {
     if (expandableController.expanded != widget.variant.isChoose) {
       expandableController.value = widget.variant.isChoose;
     }
-    print('widget.variant.id ${widget.variant.id}');
     return Visibility(
       // visible: widget.typeOrder == TypeOrder.ad
       // || widget.variant.inventory != 0

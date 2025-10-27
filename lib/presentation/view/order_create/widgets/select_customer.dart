@@ -38,13 +38,14 @@ class SelectCustomer extends StatefulWidget {
   final String? hintText;
   final CustomerEntity? selectedCustomer;
   final bool isLoadingInit;
-  final TextEditingController? controller; // 👈 thêm dòng này
+  final TextEditingController? controller;
 
   @override
   State<SelectCustomer> createState() => _SelectCustomerState();
 }
 
-class _SelectCustomerState extends State<SelectCustomer> with TickerProviderStateMixin {
+class _SelectCustomerState extends State<SelectCustomer>
+    with TickerProviderStateMixin {
   StatusSelect _statusSelect = StatusSelect.UNFOCUS;
 
   final LayerLink _layerLink = LayerLink();
@@ -270,7 +271,8 @@ class _SelectCustomerState extends State<SelectCustomer> with TickerProviderStat
                           ),
                         );
                       },
-                      separatorBuilder: (context, index) => const SizedBox(height: 0),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 0),
                       itemCount: widget.listItem
                           .where(
                             (e) => ((e.fullName?.contains(

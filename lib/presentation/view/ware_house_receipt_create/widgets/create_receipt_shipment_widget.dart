@@ -48,6 +48,12 @@ class _CreateReceiptShipmentWidgetState
   }
 
   @override
+  void dispose() {
+    lotPriceCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     final bloc = widget.bloc;
@@ -168,6 +174,15 @@ class _ShipmentInforState extends State<ShipmentInfor> {
     shipmentPriceController = TextEditingController(
       text: widget.shipment.variantData?.shipmentPrice?.toString() ?? '0',
     );
+  }
+
+  @override
+  void dispose() {
+    textCtrl.dispose();
+    startDateController.dispose();
+    endDateController.dispose();
+    shipmentPriceController.dispose();
+    super.dispose();
   }
 
   @override

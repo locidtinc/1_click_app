@@ -75,6 +75,15 @@ class _VariantEditContainerState extends State<VariantEditContainer> {
   }
 
   @override
+  void dispose() {
+    expandableController.dispose();
+    priceImportTec.dispose();
+    priceSellTec.dispose();
+    barcodeTec.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ExpandableNotifier(
       controller: expandableController,
@@ -232,9 +241,7 @@ class _VariantEditContainerState extends State<VariantEditContainer> {
               const SizedBox(height: sp16),
               // Info Variant
               AppInput(
-                controller: TextEditingController(
-                  text: widget.variant.title,
-                ),
+                initialValue: widget.variant.title,
                 label: 'Tên mẫu mã',
                 hintText: 'hintText',
                 validate: (value) {},
